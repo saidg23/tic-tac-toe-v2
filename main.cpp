@@ -235,16 +235,13 @@ int AImove(int *board)
         {
             placeMove(boardCopy, i, player);
             MoveVal = minimax(boardCopy, true, nextPlayer);
-            cout << BestVal << ", " << MoveVal << '\n';
             if(MoveVal < BestVal)
             {
                 BestVal = MoveVal;
                 bestMove = i;
-                cout << "called\n";
             }
         }
     }
-    cout << '\n';
     return bestMove;
 }
 
@@ -344,18 +341,15 @@ int main()
                 }
 
                 input = getInput(buttons, mousePos);
-                if(input < 9)
+                if(input < 9 && winstate == 0)
                 {
-                    if(winstate == 0)
-                    {
-                        if(!placeMove(boardState, input, player))
-                            break;
+                    if(!placeMove(boardState, input, player))
+                        break;
 
-                        if(player == -1)
-                            player = 1;
-                        else
-                            player = -1;
-                    }
+                    if(player == -1)
+                        player = 1;
+                    else
+                        player = -1;
                 }
 
                 winstate = checkWin(boardState);
