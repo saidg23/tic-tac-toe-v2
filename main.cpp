@@ -245,6 +245,13 @@ int AImove(int *board)
     return bestMove;
 }
 
+void setEndstateText(sf::Text &text, char *string, sf::Window &win)
+{
+    text.setString(string);
+    text.setPosition(0, win.getSize().y/2);
+    text.setCharacterSize(win.getSize().x/25);
+}
+
 int main()
 {
     //window initialization
@@ -357,21 +364,7 @@ int main()
         }
 
         win.clear();
-
-        if(winstate == 1)
-        {
-            whoWon.setString(" CROSS WON!");
-            whoWon.setPosition(0, winYres/2);
-            whoWon.setCharacterSize(win.getSize().x/25);
-            win.draw(whoWon);
-        }
-        else if(winstate == -1)
-        {
-            whoWon.setString(" CIRCLE WON!");
-            whoWon.setPosition(0, winYres/2);
-            whoWon.setCharacterSize(win.getSize().x/25);
-            win.draw(whoWon);
-        }
+        setEndstateText(whoWon, "", win);
 
         bool checkTie = true;
         for(int i = 0; i < 9; ++i)
@@ -380,17 +373,22 @@ int main()
                 checkTie = false;
         }
 
-        if(checkTie)
-        {
-            whoWon.setString("  TIE!");
-            whoWon.setPosition(0, winYres/2);
-            whoWon.setCharacterSize(win.getSize().x/25);
-            win.draw(whoWon);
-        }
+        if(winstate == 1)
+            setEndstateText(whoWon, " CROSS WON!", win);
 
+        else if(winstate == -1)
+            setEndstateText(whoWon, " CIRCLE WON!", win);
+
+        else if(checkTie)
+            setEndstateText(whoWon, "  TIE!", win);
+
+        win.draw(whoWon);
+
+        //draws the board
         for(int i = 0; i < 4; ++i)
             win.draw(board[i]);
 
+        //draws the current game state
         for(int i = 0; i < 9; ++i)
         {
             //win.draw(buttons[i]);
